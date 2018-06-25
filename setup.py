@@ -7,7 +7,7 @@ setup(name='dm-utils',
       author='Ferenc Beres',
       author_email='fberes@info.ilab.sztaki.hu',
       license='SZTAKI DMS',
-      packages=['dm-utils', 'dm-utils.models'],
+      packages=['dm_utils', 'dm_utils.models'],
       install_requires=[
           'numpy',
           'pandas',
