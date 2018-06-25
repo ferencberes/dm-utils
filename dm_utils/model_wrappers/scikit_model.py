@@ -25,7 +25,7 @@ def get_gbt_model_rules(gbt_model, column_names, k=None):
     func_str += [INDENT + INDENT + "score = 0.0",]
     for i in range(num_of_trees):
         func_str += [INDENT + INDENT + '### tree_%i ###' % (i+1)]
-        func_str += print_regression_tree_with_names(gbt_model.estimators_[i,0].tree_, column_names, INDENT)
+        func_str += print_regression_tree_with_names(gbt_model.estimators_[i, 0].tree_, column_names, INDENT)
         func_str += ['']
     func_str += [INDENT + INDENT + "return score"]
     func_str += []
