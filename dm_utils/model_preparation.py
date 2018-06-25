@@ -2,6 +2,19 @@ import numpy as np
 import pandas as pd
 
 
+def print_badrate(target_col):
+    print(target_col.value_counts())
+    print("badrate:")
+    print(target_col.value_counts() / len(target_col))
+    
+def print_badrate_train_test(train_df, test_df, TARGET):
+    df = pd.DataFrame(index=[0, 1])
+    df["train"] = train_df[TARGET].value_counts() / len(train_df)
+    df["test"] = test_df[TARGET].value_counts() / len(test_df)
+    sum_len = len(train_df) + len(test_df)
+    cut_df = pd.DataFrame({"train": len(train_df) / sum_len, "test": len(test_df) / sum_len}, index=["cut"])
+    print(df.append(cut_df))
+    
 def get_random_train_test(features_df, cut, target, seed=None):
     pos_target = features_df[features_df[target] == 1]
     neg_target = features_df[features_df[target] == 0]
