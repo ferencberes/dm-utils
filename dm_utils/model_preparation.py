@@ -31,3 +31,17 @@ def get_train_test_cut_by_col(features_df, column, cut):
     train_df = features_df[train_index]
     test_df = features_df[~train_index]
     return train_df, test_df
+
+def onehot_column(dataframe, column):
+    new_columns = []
+    for value in dataframe[column].unique():
+        new_col = column + "_-_ONEHOT_-_" + str(value)
+        new_columns.append(new_col)
+        dataframe[new_col] = dataframe[column].apply(lambda col: int(col == value))
+    return new_columns
+
+def onehot_columns(dataframe, columns):
+    new_columns = []
+    for column in columns:
+        new_columns += onehot_column(dataframe, column)
+    return new_columns
