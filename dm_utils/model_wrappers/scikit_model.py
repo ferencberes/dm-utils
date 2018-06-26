@@ -7,6 +7,7 @@ def get_gbt_feature_importance(gbt_model, column_names):
     gbt_all_importances = pd.Series(gbt_model.feature_importances_, index=column_names, name="feature importance").sort_values(ascending=False)
     return gbt_all_importances[gbt_all_importances > 0]
 
+
 def get_gbt_model_rules(gbt_model, column_names, k=None):
     """Export scikit learn GBT model rules to function"""
     if len(column_names) == 1:
@@ -14,7 +15,7 @@ def get_gbt_model_rules(gbt_model, column_names, k=None):
         column_names = column_names*3
     INDENT = str("    ")
     num_of_trees = len(gbt_model.estimators_)
-    if k!=None:
+    if k != None:
         num_of_trees = min(k, num_of_trees)
     
     func_str = ["def score_gbt(eval_df, model_name):"]
@@ -25,7 +26,7 @@ def get_gbt_model_rules(gbt_model, column_names, k=None):
     func_str += [INDENT + INDENT + "score = 0.0",]
     for i in range(num_of_trees):
         func_str += [INDENT + INDENT + '### tree_%i ###' % (i+1)]
-        func_str += print_regression_tree_with_names(gbt_model.estimators_[i, 0].tree_, column_names, INDENT)
+        func_str += get_regression_tree_with_names(gbt_model.estimators_[i, 0].tree_, column_names, INDENT)
         func_str += ['']
     func_str += [INDENT + INDENT + "return score"]
     func_str += []
@@ -34,15 +35,21 @@ def get_gbt_model_rules(gbt_model, column_names, k=None):
     return func_str
 
 
+def get_regression_tree_with_names(tree, column_names, indent):
+    return get_tree_with_names(tree, column_names, indent, regression=True)
+
+
 def print_regression_tree_with_names(tree, column_names, indent):
     """Convert scikit learn GBT model tree into readable code"""
-    return print_tree_with_names(tree, column_names, indent, regression=True)
+    print("\n".join(get_regression_tree_with_names(tree, column_names, indent)))
+
 
 def print_decision_tree_with_names(tree, column_names, indent):
     """Convert scikit learn DT model tree into readable code"""
-    return print_tree_with_names(tree, column_names, indent, regression=False)
+    print("\n".join(get_tree_with_names(tree, column_names, indent, regression=False)))
 
-def print_tree_with_names(tree, column_names, indent, regression):
+
+def get_tree_with_names(tree, column_names, indent, regression):
     left      = tree.children_left
     right     = tree.children_right
     threshold = tree.threshold
@@ -71,10 +78,12 @@ def print_tree_with_names(tree, column_names, indent, regression):
             if regression:
                 text += [line_indent + 'score += %f' % value[node][0][0]]
             else:
-                text += [line_indent + '[neg = %f pos = %f]' % (value[node][0][0], value[node][0][1])]
+                text += [line_indent + 'neg = %f' % value[node][0][0]]
+                text += [line_indent + 'pos = %f' % value[node][0][1]]
         return text
     
     return recurse(left, right, threshold, features, 0, 1, regression)
+
 
 def print_gbt_rules(gbt_model, column_names, k=None):
     """Print rules of the provided 'gbt_model'. You must provide the name of the columns you used for training the model in a list  'column_names'."""
@@ -99,7 +108,7 @@ def save_gbt_model(gbt_model, column_names, model_dir_path, model_name):
 
 def get_lreg_coefficients(lreg_model, column_names):
     intercept_df = pd.DataFrame({"name":"(intercept)", "value": lreg_model.intercept_})
-    coef_df = pd.DataFrame({"name": column_names, "value": lreg_model.coef_[0]})
+    coef_df = pd.DataFrame({"name": column_names, "value": lreg_model.coef_[0]}).sort_values("value")
     return intercept_df.append(coef_df, ignore_index=True)
 
 
