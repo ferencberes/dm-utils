@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import sklearn.metrics as sm
+import sklearn.metrics as ms
 from model_preparation import *
 from model_wrappers.scikit_model import get_lreg_coefficients
 
@@ -20,12 +20,12 @@ def print_auc(train_df, test_df, clf, feature_columns, target):
 
 def run_model(train_df, test_df, feature_columns, target, clf, verbose=True):
     clf.fit(train_df[feature_columns], train_df[target])
-    train_auc, test_auc = get_auc(train_df, test_df, clf, feature_columns)
+    train_auc, test_auc = get_auc(train_df, test_df, clf, feature_columns, target)
     if verbose:
         print_auc_(train_auc, test_auc)
     return train_auc, test_auc
 
-def run_model_n_times(features_df, feature_columns, cut, clf, n_times, verbose=False):
+def run_model_n_times(features_df, feature_columns, target, cut, clf, n_times, verbose=False):
     train_aucs = []
     test_aucs = []
     for i in range(n_times):
