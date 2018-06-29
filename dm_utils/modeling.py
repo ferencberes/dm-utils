@@ -10,13 +10,24 @@ def get_auc(train_df, test_df, clf, feature_columns, target):
     test_auc = ms.roc_auc_score(test_df[target], [l[1] for l in clf.predict_proba(test_df[feature_columns])])
     return train_auc, test_auc
 
+
 def print_auc_(train_auc, test_auc):
     print("train auc:", train_auc)
     print("test  auc:", test_auc)
 
+
 def print_auc(train_df, test_df, clf, feature_columns, target):
     train_auc, test_auc = get_auc(train_df, test_df, clf, feature_columns, target)
     print_auc_(train_auc, test_auc)
+
+
+def smape(y_true, y_pred):
+    return 2 * np.mean( np.abs(y_true - y_pred) / (np.abs(y_true) + np.abs(y_pred)) )
+
+
+def rmse(y_true, y_pred):
+    return sqrt(mean_squared_error(y_true, y_pred))
+
 
 def run_model(train_df, test_df, feature_columns, target, clf, verbose=True):
     clf.fit(train_df[feature_columns], train_df[target])
@@ -24,6 +35,7 @@ def run_model(train_df, test_df, feature_columns, target, clf, verbose=True):
     if verbose:
         print_auc_(train_auc, test_auc)
     return train_auc, test_auc
+
 
 def run_model_n_times(features_df, feature_columns, target, cut, clf, n_times, verbose=False):
     train_aucs = []
@@ -47,6 +59,7 @@ def run_model_n_times(features_df, feature_columns, target, cut, clf, n_times, v
     print("deviation:")
     print("train:", train_aucs.std())
     print("test: ", test_aucs.std())
+
 
 def get_aggregated_coef_df(features_df, feature_columns, target, cut, clf, n_times):
     feature_coefficients = dict([(col, []) for col in feature_columns])
