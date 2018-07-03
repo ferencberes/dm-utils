@@ -36,6 +36,7 @@ def get_train_test_cut_by_col(features_df, column, cut):
     return train_df, test_df
 
 
+
 def one_hot(df, columns):
     def one_hot_column(df, column):
         values = df[column].unique()
@@ -51,8 +52,9 @@ def one_hot(df, columns):
             new_columns += one_hot_column(df, col)
         return new_columns
     else:
-        raise RuntimeError("columns must be str or list")
-        
+        raise RuntimeError("columns must be either str or list")
+
+
 
 def replace_nan_with_avg(train_df, test_df, replace_with_avg_cols, verbose=False):
     for feat in replace_with_avg_cols:
