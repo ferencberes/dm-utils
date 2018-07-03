@@ -36,21 +36,23 @@ def get_train_test_cut_by_col(features_df, column, cut):
     return train_df, test_df
 
 
-def onehot_column(dataframe, column):
-    new_columns = []
-    for value in dataframe[column].unique():
-        new_col = column + "_-_ONEHOT_-_" + str(value)
-        new_columns.append(new_col)
-        dataframe[new_col] = dataframe[column].apply(lambda col: int(col == value))
-    return new_columns
-
-
-def onehot_columns(dataframe, columns):
-    new_columns = []
-    for column in columns:
-        new_columns += onehot_column(dataframe, column)
-    return new_columns
-
+def one_hot(df, columns):
+    def one_hot_column(df, column):
+        values = df[column].unique()
+        new_columns = ["%s_-_ONEHOT_-_%s" % (column, str(value)) for value in values]
+        for value in values:
+            df["%s_-_ONEHOT_-_%s" % (column, str(value))] = df[column].apply(lambda v: int(v == value))
+        return new_columns
+    if type(columns) is str:
+        return one_hot_column(df, columns)
+    elif type(columns) is list:
+        new_columns = []
+        for col in columns:
+            new_columns += one_hot_column(df, col)
+        return new_columns
+    else:
+        raise RuntimeError("columns must be str or list")
+        
 
 def replace_nan_with_avg(train_df, test_df, replace_with_avg_cols, verbose=False):
     for feat in replace_with_avg_cols:
@@ -67,7 +69,7 @@ def replace_nan_with_avg(train_df, test_df, replace_with_avg_cols, verbose=False
 def generate_target_means(train_df, test_df, target, mean_columns):
     for col in mean_columns:
         newcol = "mean_%s_per_%s" % (target, col)
-        values = sorted(train_df[col].unique()) + sorted(test_df[col].unique())
+        values = sorted(set(list(train_df[col].unique()) + list(test_df[col].unique())))
         replacing_dict = dict([(value, np.NaN) for value in values])
         replacing_dict.update( train_df.groupby(col).mean()[target].to_dict() )
         train_df[newcol] = train_df[col].replace(replacing_dict)
