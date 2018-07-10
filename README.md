@@ -4,7 +4,7 @@ dm-utils
 This repository contains methods that are frequently used in data science analyses. e.g.
 - train-test splitting
 - auc, rmse calculations
-- decision tree visiualization
+- decision tree visualization
 - etc.
 
 ### Requirements

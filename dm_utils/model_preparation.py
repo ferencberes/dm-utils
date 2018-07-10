@@ -36,7 +36,6 @@ def get_train_test_cut_by_col(features_df, column, cut):
     return train_df, test_df
 
 
-
 def one_hot(df, columns):
     def one_hot_column(df, column):
         values = df[column].unique()
