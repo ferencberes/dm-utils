@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 import sklearn.metrics as ms
-from model_preparation import *
-from model_wrappers.scikit_model import get_lreg_coefficients
+from .model_preparation import *
+from .model_wrappers.scikit_model import get_lreg_coefficients
 
 
 def get_auc(train_df, test_df, clf, feature_columns, target):

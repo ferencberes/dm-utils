@@ -8,7 +8,7 @@ This repository contains methods that are frequently used in data science analys
 - etc.
 
 ### Requirements
-- Anaconda + Python3.6 environment
+- Anaconda + Python3 environment
 
 ### Installation from source
 - `cd dm-utils`
