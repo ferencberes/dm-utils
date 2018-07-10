@@ -1,7 +1,7 @@
 dm-utils
 ========
 
-This repository contains methods that are frequently used in data science analyses. e.g.
+This repository contains methods that are frequently used in data science analyses. For example:
 - train-test splitting
 - auc, rmse calculations
 - decision tree visualization
@@ -15,4 +15,4 @@ This repository contains methods that are frequently used in data science analys
 - `pip install .`
 
 ### Example usage
-- [Example.ipynb](https://github.com/ferencberes/dm-utils/blob/master/examples/Example.ipynb)
+[Example.ipynb](https://github.com/ferencberes/dm-utils/blob/master/examples/Example.ipynb)
