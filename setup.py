@@ -7,14 +7,19 @@ setup(name='dm-utils',
       author='Ferenc Beres',
       author_email='fberes@info.ilab.sztaki.hu',
       license='SZTAKI DMS',
-      packages=['dm_utils', 'dm_utils.model_wrappers'],
+      packages=['dm_utils', 'dm_utils.model_wrappers', 'dm_utils.evaluation_utils'],
       install_requires=[
           'numpy',
           'pandas',
+          'scipy',
           'matplotlib',
           'seaborn',
           'networkx',
           'sklearn',
-          'xgboost'
+          'xgboost',
+          'multiprocessing',
+          'functools',
+          'operator',
+          'itertools'
       ],
       zip_safe=False)
