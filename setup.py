@@ -17,9 +17,9 @@ setup(name='dm-utils',
           'networkx',
           'sklearn',
           'xgboost',
-          'multiprocessing',
-          'functools',
-          'operator',
-          'itertools'
+          #'multiprocessing',
+          #'functools',
+          #'operator', 
+          #'itertools'
       ],
       zip_safe=False)
