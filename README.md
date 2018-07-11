@@ -5,6 +5,7 @@ This repository contains methods that are frequently used in data science analys
 - train-test splitting
 - auc, rmse calculations
 - decision tree visualization
+- parallelized similarity metrics + NDCG
 - etc.
 
 ### Requirements
@@ -16,3 +17,7 @@ This repository contains methods that are frequently used in data science analys
 
 ### Example usage
 [Example.ipynb](https://github.com/ferencberes/dm-utils/blob/master/examples/Example.ipynb)
+
+### Future Work
+
+- Heuristic categorization of continuous numerical features
